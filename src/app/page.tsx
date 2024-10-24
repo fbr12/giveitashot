@@ -1,95 +1,48 @@
+"use client"
+
+import { Box, Container, Typography } from '@mui/material';
 import Image from "next/image";
-import styles from "./page.module.css";
+import Navbar from '../modules/Navbar/Navbar';
+import dynamic from 'next/dynamic';
+import GridMovies from '../modules/GridMovies/GridMovies';
+import GridSeries from '../modules/GridSeries/GridSeries';
+import { useTrendingMovies } from '../hooks/useTrendingMovies';
+import { useTopMovies } from '../hooks/useTopMovies';
+import { useTopSeries } from '../hooks/useTopSeries';
+
+const Carousel = dynamic(() => import('../modules/Carousel/Carousel'), { ssr: false });
 
 export default function Home() {
+  const trendingMovies = useTrendingMovies();
+  const topMovies = useTopMovies();
+  const topSeries = useTopSeries();
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <Box sx={{ backgroundColor: '#181818', color: '#EAEAEA', minHeight: '100vh' }}>
+      <Navbar />
+      <Container>
+        <Box sx={{ textAlign: 'center', my: 5 }}>
+          <Image
+                  src={'/darklogo.png'}
+                  alt="logo de la pagina"
+                  width={1000}
+                  height={400}
+              />
+        </Box>
+        <Box sx={{ my: 5 }}>
+          <Typography variant="h4" gutterBottom>Trending Movies</Typography>
+          <Carousel movies={trendingMovies} />
+        </Box>
+        <Box sx={{ my: 5 }}>
+          <Typography variant="h4" gutterBottom>Top Movies</Typography>
+          <GridMovies movies={topMovies} />
+        </Box>
+        <Box sx={{ my: 5 }}>
+          <Typography variant="h4" gutterBottom>Top Series</Typography>
+          <GridSeries series={topSeries} />
+        </Box>
+      </Container>
+    </Box>
   );
 }
+
